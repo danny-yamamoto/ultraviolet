@@ -78,3 +78,13 @@ npx prisma init
 npx prisma migrate dev --name init
 npm install @prisma/client
 ```
+
+```bash
+# POST
+# Create
+curl -i -X POST -H 'Content-Type: application/json' -d '{"content" : "apple"}' localhost:3000/todo
+
+# GET
+# Findone
+curl -i -X GET localhost:3000/todo/1
+```
