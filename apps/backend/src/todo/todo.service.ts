@@ -1,30 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTodoDto } from './dto/create-todo.dto';
-import { UpdateTodoDto } from './dto/update-todo.dto';
 import { PrismaService } from 'src/prisma.service';
+import { Prisma, Todo } from '@prisma/client';
 
 @Injectable()
 export class TodoService {
   constructor(private prisma: PrismaService) {}
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  create(createTodoDto: CreateTodoDto) {
-    return 'This action adds a new todo';
+  async create(data: Prisma.TodoCreateInput): Promise<Todo> {
+    return this.prisma.todo.create({ data });
   }
 
-  findAll() {
-    return `This action returns all todo`;
+  async findAll(params: {
+    skip?: number;
+    take?: number;
+    cursor?: Prisma.TodoWhereUniqueInput;
+    where?: Prisma.TodoWhereInput;
+    orderBy?: Prisma.TodoOrderByWithRelationInput;
+  }): Promise<Todo[]> {
+    const { skip, take, cursor, where, orderBy } = params;
+    return this.prisma.todo.findMany({ skip, take, cursor, where, orderBy });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} todo`;
+  async findOne(
+    TodoWhereUniqueInput: Prisma.TodoWhereUniqueInput,
+  ): Promise<Todo | null> {
+    return this.prisma.todo.findUnique({ where: TodoWhereUniqueInput });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  update(id: number, updateTodoDto: UpdateTodoDto) {
-    return `This action updates a #${id} todo`;
+  async update(params: {
+    where: Prisma.TodoWhereUniqueInput;
+    data: Prisma.TodoUpdateInput;
+  }): Promise<Todo> {
+    const { where, data } = params;
+    return this.prisma.todo.update({ data, where });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} todo`;
+  async remove(where: Prisma.TodoWhereUniqueInput): Promise<Todo> {
+    return this.prisma.todo.delete({ where });
   }
 }
