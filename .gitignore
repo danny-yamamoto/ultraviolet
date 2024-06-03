@@ -39,6 +39,8 @@ yarn-error.log*
 
 # Dev
 README-PERSONAL.md
+*.wip
 
 # Amplify
 .amplify
+*.com
