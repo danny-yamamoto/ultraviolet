@@ -1,7 +1,8 @@
 import { defineBackend } from '@aws-amplify/backend';
 import { CustomDatabase } from './custom/customdatabase/resource';
+import { data } from './data/resource';
 
-const backend = defineBackend({});
+const backend = defineBackend({ data });
 
 const customDatabase = new CustomDatabase(
   backend.createStack('CustomDatabase'),
